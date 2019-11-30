@@ -17,13 +17,29 @@ fileSystem.unlink(path, (error) => {
   }
 })
 
+getWordToPrint = (number, wordToPrint) => {
+  const isMultipleOfThree = number % 3 === 0;
+  const isMultipleOfFive = number % 5 === 0;
+
+  if (isMultipleOfThree && isMultipleOfFive) {
+    wordToPrint = 'FizzBuzz';
+  } else if (isMultipleOfThree) {
+    wordToPrint = 'Fizz';
+  } else if (isMultipleOfFive) {
+    wordToPrint = 'Buzz';
+  } else if (!wordToPrint) {
+    wordToPrint = `It shouldn't break anything!`;
+  }
+  return wordToPrint;
+};
+
 writeStringsToFile = (i,formattedString) => {
   fileSystem.appendFile(
     path,
     `${formattedString}\n`,
     (error) => {
       if (error) throw error;
-      if (i === 100) {
+      if (i === endNumber) {
         console.log(`Saved as ${path}. You can find this file  in the project root folder`)
       }
     });
@@ -37,7 +53,8 @@ async function printRandomNumbers() {
     } catch (error) {
       randomWord = false;
     }
-    const formattedString = `${i}: ${randomWord}`;
+    const wordToPrint = getWordToPrint(i, randomWord);
+    const formattedString = `${i}: ${wordToPrint}`;
     writeStringsToFile(i,formattedString)
   }
 }

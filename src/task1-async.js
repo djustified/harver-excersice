@@ -23,7 +23,7 @@ writeStringsToFile = (i,formattedString) => {
     `${formattedString}\n`,
     (error) => {
       if (error) throw error;
-      if (i === 100) {
+      if (i === endNumber) {
         console.log(`Saved as ${path}. You can find this file  in the project root folder`)
       }
     });
