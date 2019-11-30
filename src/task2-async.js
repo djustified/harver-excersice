@@ -1,5 +1,6 @@
 const { getRandomWord } = require('word-maker');
 const fileSystem = require('fs');
+const axios = require('axios').default;
 
 console.log('It works!');
 
@@ -45,6 +46,18 @@ writeStringsToFile = (i,formattedString) => {
     });
 }
 
+postStingsToApi = async data => {
+  return axios({
+    method: 'POST',
+    url: `${apiURL}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+    },
+    data: data
+  });
+};
+
+let randomStringsList=[]
 async function printRandomNumbers() {
   for (i = startNumber; i <= endNumber; i++) {
     let randomWord;
@@ -55,7 +68,15 @@ async function printRandomNumbers() {
     }
     const wordToPrint = getWordToPrint(i, randomWord);
     const formattedString = `${i}: ${wordToPrint}`;
+    randomStringsList.push(formattedString)
     writeStringsToFile(i,formattedString)
+    if (i === endNumber) {
+      try {
+        await postStingsToApi(randomStringsList)
+      } catch (error){
+        console.log('unable to post to API')
+      }
+    }
   }
 }
 
