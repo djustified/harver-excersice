@@ -6,32 +6,15 @@ console.log('It works!');
 const startNumber = 1;
 const endNumber = 100;
 
-getWordToPrint = (number, wordToPrint) => {
-  const isMultipleOfThree = number % 3 === 0;
-  const isMultipleOfFive = number % 5 === 0;
-
-  if (isMultipleOfThree && isMultipleOfFive) {
-    wordToPrint = 'FizzBuzz';
-  } else if (isMultipleOfThree) {
-    wordToPrint = 'Fizz';
-  } else if (isMultipleOfFive) {
-    wordToPrint = 'Buzz';
-  } else if (!wordToPrint) {
-    wordToPrint = `It shouldn't break anything!`;
-  }
-  return wordToPrint;
-};
-
 async function printRandomNumbers() {
   for (i = startNumber; i <= endNumber; i++) {
     let randomWord;
     try {
       randomWord = await getRandomWord({ withErrors: true });
     } catch (error) {
-      randomWord = false;
+      randomWord = `It shouldn't break anything!`;
     }
-    const wordToPrint = getWordToPrint(i, randomWord);
-    const formattedString = `${i}: ${wordToPrint}`;
+    const formattedString = `${i}: ${randomWord}`;
     console.log(formattedString);
   }
 }
