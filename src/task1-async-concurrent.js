@@ -11,12 +11,12 @@ console.log(
 );
 
 // Set Path to store the generated strings
-const path = '../Task1-async-concurrent.txt';
+const path = 'Task1-async-concurrent.txt';
 const startNumber = 1;
 const endNumber = 100;
 const apiURL = 'http://localhost/Api/posts';
 let randomStringsList = [];
-let writeStream = fileSystem.createWriteStream('../Task1-async-concurrent.txt');
+let writeStream = fileSystem.createWriteStream('Task1-async-concurrent.txt');
 
 // Remove file if it already exists
 fileSystem.unlink(path, error => {
@@ -51,7 +51,7 @@ async function printRandomNumbers() {
   for (i = startNumber; i <= endNumber; i++) {
     function sleep(fn, j) {
       return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(fn(j)), 250);
+        setTimeout(() => resolve(fn(j)), 1);
       });
     }
     async function randomizeWords(k) {
@@ -61,7 +61,7 @@ async function printRandomNumbers() {
         const formattedString = `${k}: ${randomWord}`;
         randomStringsList.push(formattedString);
         writeStringsToFile(k, formattedString);
-        if (k === endNumber) {
+        if (i === endNumber) {
           try {
             await postStingsToApi(randomStringsList);
           } catch (error) {

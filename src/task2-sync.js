@@ -9,12 +9,12 @@ console.log('It works!');
 console.log('<<<<<<- Running Task2 in Synchronous mode ->>>>>>');
 
 // Set Path to store the generated strings
-const path = '../Task2-sync.txt';
+const path = 'Task2-sync.txt';
 const startNumber = 1;
 const endNumber = 100;
 const apiURL = 'http://localhost/Api/posts';
 let randomStringsList = [];
-let writeStream = fileSystem.createWriteStream('../Task2-sync-sorted.txt');
+let writeStream = fileSystem.createWriteStream('Task2-sync-sorted.txt');
 
 // Remove file if it already exists
 fileSystem.unlink(path, error => {
@@ -39,7 +39,7 @@ writeStringsToFile = (i, formattedString) => {
     if (error) throw error;
     if (i === endNumber) {
       console.log(
-        `Saved as ../Task2-sync-sorted.txt You can find this file  in the project root folder`
+        `Saved as Task2-sync-sorted.txt You can find this file  in the project root folder`
       );
       // close the stream
       writeStream.end();
