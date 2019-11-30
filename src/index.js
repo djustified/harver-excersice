@@ -16,13 +16,20 @@ getWordToPrint = (number, wordToPrint) => {
     wordToPrint = 'Fizz';
   } else if (isMultipleOfFive) {
     wordToPrint = 'Buzz';
+  } else if (!wordToPrint) {
+    wordToPrint = `It shouldn't break anything!`;
   }
   return wordToPrint;
 };
 
 async function printRandomNumbers() {
   for (i = startNumber; i <= endNumber; i++) {
-    const randomWord = await getRandomWord();
+    let randomWord;
+    try {
+      randomWord = await getRandomWord({ withErrors: true });
+    } catch (error) {
+      randomWord = false;
+    }
     const wordToPrint = getWordToPrint(i, randomWord);
     const formattedString = `${i}: ${wordToPrint}`;
     console.log(formattedString);
