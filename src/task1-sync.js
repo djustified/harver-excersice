@@ -34,17 +34,17 @@ writeStringsToFile = (i, formattedString) => {
     }
   });
 
-//sorted records
-writeStream.write(`${formattedString}\n`, 'UTF-8', error => {
-  if (error) throw error;
-  if (i === endNumber) {
-    console.log(
-      `Saved as ../Task1-sync-sorted.txt You can find this file  in the project root folder`
-    );
-    // close the stream
-    writeStream.end();
-  }
-});
+  //sorted records
+  writeStream.write(`${formattedString}\n`, 'UTF-8', error => {
+    if (error) throw error;
+    if (i === endNumber) {
+      console.log(
+        `Saved as ../Task1-sync-sorted.txt You can find this file  in the project root folder`
+      );
+      // close the stream
+      writeStream.end();
+    }
+  });
 };
 
 postStingsToApi = async data => {

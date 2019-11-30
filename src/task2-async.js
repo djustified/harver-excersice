@@ -9,19 +9,19 @@ console.log('It works!');
 console.log('<<<<<<- Running Task2 in Asynchronous mode ->>>>>>');
 
 // Set Path to store the generated strings
-const path = '../Task2-async.txt'
+const path = '../Task2-async.txt';
 const startNumber = 1;
 const endNumber = 100;
 const apiURL = 'http://localhost/Api/posts';
-let randomStringsList=[]
+let randomStringsList = [];
 let writeStream = fileSystem.createWriteStream('../Task2-async-sorted.txt');
 
 // Remove file if it already exists
-fileSystem.unlink(path, (error) => {
+fileSystem.unlink(path, error => {
   if (error) {
-    return
+    return;
   }
-})
+});
 
 getWordToPrint = (number, wordToPrint) => {
   const isMultipleOfThree = number % 3 === 0;
@@ -39,7 +39,7 @@ getWordToPrint = (number, wordToPrint) => {
   return wordToPrint;
 };
 
-writeStringsToFile = (i,formattedString) => {
+writeStringsToFile = (i, formattedString) => {
   // unsorted records
   fileSystem.appendFile(path, `${formattedString}\n`, error => {
     if (error) throw error;
@@ -50,25 +50,25 @@ writeStringsToFile = (i,formattedString) => {
     }
   });
 
-//sorted records
-writeStream.write(`${formattedString}\n`, 'UTF-8', error => {
-  if (error) throw error;
-  if (i === endNumber) {
-    console.log(
-      `Saved as ../Task2-async-sorted.txt You can find this file  in the project root folder`
-    );
-    // close the stream
-    writeStream.end();
-  }
-});
-}
+  //sorted records
+  writeStream.write(`${formattedString}\n`, 'UTF-8', error => {
+    if (error) throw error;
+    if (i === endNumber) {
+      console.log(
+        `Saved as ../Task2-async-sorted.txt You can find this file  in the project root folder`
+      );
+      // close the stream
+      writeStream.end();
+    }
+  });
+};
 
 postStingsToApi = async data => {
   return axios({
     method: 'POST',
     url: `${apiURL}`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
     },
     data: data
   });
@@ -84,13 +84,13 @@ async function printRandomNumbers() {
     }
     const wordToPrint = getWordToPrint(i, randomWord);
     const formattedString = `${i}: ${wordToPrint}`;
-    randomStringsList.push(formattedString)
-    writeStringsToFile(i,formattedString)
+    randomStringsList.push(formattedString);
+    writeStringsToFile(i, formattedString);
     if (i === endNumber) {
       try {
-        await postStingsToApi(randomStringsList)
-      } catch (error){
-        console.log('unable to post to API')
+        await postStingsToApi(randomStringsList);
+      } catch (error) {
+        console.log('unable to post to API');
       }
     }
   }
