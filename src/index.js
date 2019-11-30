@@ -1,4 +1,4 @@
-const { getRandomWordSync } = require('word-maker');
+const { getRandomWord } = require('word-maker');
 
 console.log('It works!');
 
@@ -6,8 +6,12 @@ console.log('It works!');
 const startNumber = 1;
 const endNumber = 100;
 
-for (i = startNumber; i <= endNumber; i++) {
-  const randomWord = getRandomWordSync();
-  const formattedString = `${i}: ${randomWord}`;
-  console.log(formattedString);
+async function printRandomNumbers() {
+  for (i = startNumber; i <= endNumber; i++) {
+    const randomWord = await getRandomWord();
+    const formattedString = `${i}: ${randomWord}`;
+    console.log(formattedString);
+  }
 }
+
+printRandomNumbers();
