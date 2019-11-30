@@ -1,14 +1,19 @@
 const { getRandomWordSync } = require('word-maker');
 const fileSystem = require('fs');
+const axios = require('axios').default;
 
 console.log('It works!');
 
 // YOUR CODE HERE
 
+console.log('<<<<<<- Running Task2 in Synchronous mode ->>>>>>');
+
 // Set Path to store the generated strings
-const path = '../randomWords-sync.txt'
+const path = '../Task2-sync.txt'
 const startNumber = 1;
 const endNumber = 100;
+const apiURL = 'http://localhost/Api/posts';
+let randomStringsList=[]
 
 // Remove file if it already exists
 fileSystem.unlink(path, (error) => {
@@ -28,6 +33,20 @@ writeStringsToFile = (i,formattedString) => {
       }
     });
 }
+
+postStingsToApi = async data => {
+  return axios({
+    method: 'POST',
+    url: `${apiURL}`,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
+    data: data
+  }).catch(function (error) {
+    console.log('unable to post to API');
+  });;
+
+};
 
 getWordToPrint = number => {
   let wordToPrint;
@@ -55,5 +74,9 @@ getWordToPrint = number => {
 for (i = startNumber; i <= endNumber; i++) {
   const randomWord = getWordToPrint(i);
   const formattedString = `${i}: ${randomWord}`;
-  writeStringsToFile(i,formattedString)
+  randomStringsList.push(formattedString);
+  writeStringsToFile(i, formattedString);
+  if (i === endNumber) {
+    postStingsToApi(randomStringsList);
+  }
 }

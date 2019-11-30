@@ -6,11 +6,14 @@ console.log("It works!");
 
 // YOUR CODE HERE
 
+console.log('<<<<<<- Running Task1 in Asynchronous mode ->>>>>>');
+
 // Set Path to store the generated strings
-const path = "../randomWords-async.txt";
+const path = "../Task1-async.txt";
 const startNumber = 1;
 const endNumber = 100;
 const apiURL = "http://localhost/Api/posts";
+let randomStringsList=[]
 
 // Remove file if it already exists
 fileSystem.unlink(path, error => {
@@ -41,7 +44,6 @@ postStingsToApi = async data => {
   });
 };
 
-let randomStringsList=[]
 async function printRandomNumbers() {
 
   for (i = startNumber; i <= endNumber; i++) {
