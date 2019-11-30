@@ -14,6 +14,7 @@ const startNumber = 1;
 const endNumber = 100;
 const apiURL = 'http://localhost/Api/posts';
 let randomStringsList=[]
+let writeStream = fileSystem.createWriteStream('../Task2-sync-sorted.txt');
 
 // Remove file if it already exists
 fileSystem.unlink(path, (error) => {
@@ -23,15 +24,27 @@ fileSystem.unlink(path, (error) => {
 })
 
 writeStringsToFile = (i,formattedString) => {
-  fileSystem.appendFile(
-    path,
-    `${formattedString}\n`,
-    (error) => {
-      if (error) throw error;
-      if (i === endNumber) {
-        console.log(`Saved as ${path}. You can find this file  in the project root folder`)
-      }
-    });
+  // unsorted records
+  fileSystem.appendFile(path, `${formattedString}\n`, error => {
+    if (error) throw error;
+    if (i === endNumber) {
+      console.log(
+        `Saved as ${path}. You can find this file  in the project root folder`
+      );
+    }
+  });
+
+//sorted records
+writeStream.write(`${formattedString}\n`, 'UTF-8', error => {
+  if (error) throw error;
+  if (i === endNumber) {
+    console.log(
+      `Saved as ../Task2-sync-sorted.txt You can find this file  in the project root folder`
+    );
+    // close the stream
+    writeStream.end();
+  }
+});
 }
 
 postStingsToApi = async data => {
