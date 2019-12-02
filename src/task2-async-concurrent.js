@@ -60,12 +60,17 @@ postStingsToApi = async data => {
 };
 
 async function printRandomNumbers() {
+  let promises = [];
+
   for (i = startNumber; i <= endNumber; i++) {
     function sleep(fn, j) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(fn(j)), 1);
-      });
+      promises.push(
+        new Promise((resolve, reject) => {
+          setTimeout(() => resolve(fn(j)), 1);
+        })
+      );
     }
+
     async function randomizeWords(k) {
       let randomWord;
       try {
@@ -85,8 +90,20 @@ async function printRandomNumbers() {
         return;
       }
     }
+
     sleep(randomizeWords, i);
   }
+
+  Promise.all(promises)
+    .then(() => {
+      console.log(
+        `Saved as Task2-async-concurrent.txt You can find this file  in the project root folder`
+      );
+    })
+    .finally(() => {
+      // close the stream
+      writeStream.end();
+    });
 }
 
 printRandomNumbers();
